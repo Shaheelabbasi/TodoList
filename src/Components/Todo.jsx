@@ -1,10 +1,15 @@
 import React, { useCallback, useEffect, useState } from 'react'
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
+import useToggle from '../Hooks/useToggle';
+import { FaSave } from "react-icons/fa";
+
 const Todo = () => {
     const [Todos, setTodos] = useState([])
 
     const [CurrentTodo, setCurrentTodo] = useState("")
+    const [TodoIndex, setTodoIndex] = useState(null)
+    const [UpdatedTodo, setUpdatedTodo] = useState("")
  const addTodo=(e)=>{
      e.preventDefault()
      setTodos((prev)=>[...prev,CurrentTodo])
@@ -16,9 +21,12 @@ const Todo = () => {
 
         setTodos(()=>Todos.filter((todo,curr)=>curr!=index))
      }
-
-
    
+   function updateTodo(){
+ 
+    setTodos(()=>Todos.map((todo,index)=>index==TodoIndex ? UpdatedTodo:todo))
+     setTodoIndex(null)
+   }
     
 
   return (
@@ -41,14 +49,29 @@ const Todo = () => {
          <div key={index}
          className='h-18 border-2 border-red-600  flex space-x-10 items-center p-2 text-center justify-center' 
          >
-           <input type='text' className='text-4xl p-2'
-           id="edit"
-           value={todo}
-           readOnly
-           ></input> 
+   
+    { TodoIndex !=index ?
+            <input type='text' className="text-4xl p-2"
+            id="edit"
+            value={todo}
+            ></input> 
+              :
+           <input type="text" id="mera"
+           className="text-4xl p-2 border-2 border-black"
+           onChange={(e)=>setUpdatedTodo(e.target.value)}
+           />
+          }
+
+
            <div className='flex w-20 h-10  items-center justify-between'>
-         <MdEdit   className='text-4xl cursor-pointer'/>
-         <MdDelete  className='text-4xl cursor-pointer' onClick={()=>removeTodo(index)}/>
+         {
+          TodoIndex !=index ?
+         <MdEdit   className="text-4xl cursor-pointer" onClick={()=>setTodoIndex(index)} /> :
+         <FaSave className='text-4xl cursor-pointer' onClick={()=>updateTodo()} />
+         
+        }
+           <MdDelete  className='text-4xl cursor-pointer' onClick={()=>removeTodo(index)}/>
+
            </div>
          </div>
         ))
