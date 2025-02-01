@@ -1,9 +1,8 @@
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { useCallback, useContext, useEffect, useState } from 'react'
 import { MdEdit } from "react-icons/md";
 import { MdDelete } from "react-icons/md";
 import useToggle from '../Hooks/useToggle';
 import { FaSave } from "react-icons/fa";
-
 const Todo = () => {
     const [Todos, setTodos] = useState([])
 
@@ -19,11 +18,10 @@ const Todo = () => {
     
      function removeTodo(index){
 
-        setTodos(()=>Todos.filter((todo,curr)=>curr!=index))
+        setTodos(()=>Todos.filter((_,curr)=>curr!=index))
      }
    
    function updateTodo(){
- 
     setTodos(()=>Todos.map((todo,index)=>index==TodoIndex ? UpdatedTodo:todo))
      setTodoIndex(null)
    }
